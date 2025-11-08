@@ -1,4 +1,5 @@
-// backend/routes/itemRoutes.js
+//The-Bug-Busters/backend/routes/itemRoutes.js
+
 const router = require('express').Router();
 const ctrl = require('../controllers/itemController');
 const auth = require('../middleware/auth');
