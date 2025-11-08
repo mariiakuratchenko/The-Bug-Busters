@@ -25,22 +25,22 @@ Fully tested with Postman
 
 Project Structure
 backend/
-│── controllers/
-│   ├── authController.js
-│   ├── itemController.js
-│
-│── middleware/
-│   ├── auth.js
-│
-│── models/
-│   ├── User.js
-│   ├── Item.js
-│
-│── routes/
-│   ├── authRoutes.js
-│   ├── itemRoutes.js
-│
-│── app.js
-│── package.json
-│── .env.example
-│── README.md
+==> controllers/
+==>  --->authController.js
+==>  ---> itemController.js
+==
+==> middleware/
+==> --->auth.js
+==
+==> models/
+==> ---> User.js
+==>  ---> Item.js
+==
+==> routes/
+==>  ---> authRoutes.js
+==> ---> itemRoutes.js
+==
+==>app.js
+==> package.json
+==> .env.example
+==> README.md
