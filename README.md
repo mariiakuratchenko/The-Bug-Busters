@@ -44,3 +44,10 @@ backend/
 ==> package.json
 ==> .env.example
 ==> README.md
+
+
+### Lead Software Engineer
+Geti Rahmanoghli  
+
+
+
