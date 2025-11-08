@@ -1,4 +1,5 @@
-// backend/models/Item.js
+//The-Bug-Busters/backend/models/Item.js
+
 const mongoose = require('mongoose');
 
 const itemSchema = new mongoose.Schema(
