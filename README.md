@@ -45,9 +45,23 @@ backend/
 ==> .env.example
 ==> README.md
 
+### Project Manager
+Faizan Wasti
 
 ### Lead Software Engineer
 Geti Rahmanoghli  
+
+### Web Designer
+Jayani Yogarajah
+
+### Ui Programmer
+Mariia Kuratchenko
+
+### Security Programmer
+Jay Louis
+
+### Database Programmer
+Shared Responsibility
 
 
 
