@@ -1,11 +1,13 @@
+// backend/routes/itemRoutes.js
 const router = require('express').Router();
+const ctrl = require('../controllers/itemController');
 const auth = require('../middleware/auth');
-const c = require('../controllers/itemController');
 
-router.get('/', c.getAll);
-router.get('/:id', c.getOne);
-router.post('/', auth, c.createItem);
-router.put('/:id', auth, c.updateItem);
-router.delete('/:id', auth, c.removeItem);
+
+router.get('/', ctrl.getItems);
+router.get('/:id', ctrl.getItem);
+router.post('/', auth, ctrl.createItem);
+router.put('/:id', auth, ctrl.updateItem);
+router.delete('/:id', auth, ctrl.deleteItem);
 
 module.exports = router;
