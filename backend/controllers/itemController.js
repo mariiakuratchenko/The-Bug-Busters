@@ -1,4 +1,5 @@
-// backend/controllers/itemController.js
+//The-Bug-Busters/backend/controllers/itemController.js
+
 const Item = require('../models/Item');
 
 exports.createItem = async (req, res) => {
