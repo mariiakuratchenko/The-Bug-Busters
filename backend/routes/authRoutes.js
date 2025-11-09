@@ -1,11 +1,10 @@
-//The-Bug-Busters\backend\routes\authRoutes.js
+// backend/routes/authRoutes.js
+const router = require("express").Router();
+const ctrl = require("../controllers/authController");
+const auth = require("../middleware/auth");
 
-import express from "express";
-import { register, login } from "../controllers/authController.js";
+router.post("/register", ctrl.register);
+router.post("/login", ctrl.login);
+router.get("/me", auth, ctrl.me);
 
-const router = express.Router();
-
-router.post("/register", register);
-router.post("/login", login);
-
-export default router;
+module.exports = router; // <-- ÖNEMLİ
