@@ -1,18 +1,20 @@
-// backend/controllers/userController.js
 const User = require("../models/User");
 
-exports.getMe = async (req, res, next) => {
+exports.getAllUsers = async (req, res, next) => {
   try {
-    const me = await User.findById(req.user._id).select("-password");
-    res.json(me);
-  } catch (e) { next(e); }
+    const users = await User.find().select("-password");
+    res.json(users);
+  } catch (e) {
+    next(e);
+  }
 };
 
-exports.updateMe = async (req, res, next) => {
+exports.getUserById = async (req, res, next) => {
   try {
-    const updates = {};
-    if (req.body.name) updates.name = req.body.name;
-    const me = await User.findByIdAndUpdate(req.user._id, updates, { new: true }).select("-password");
-    res.json(me);
-  } catch (e) { next(e); }
+    const user = await User.findById(req.params.id).select("-password");
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
+  } catch (e) {
+    next(e);
+  }
 };
