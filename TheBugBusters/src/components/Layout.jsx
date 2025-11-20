@@ -5,7 +5,6 @@ function Layout() {
 
     return (
         <div>
-            <h1>Welcome To The Bug Busters</h1>
             <nav className="navbar">
 
                 <Link to="/">Main</Link>
@@ -16,6 +15,7 @@ function Layout() {
             </nav>
             <br />
             <hr />
+            <h1>Welcome To The Bug Busters</h1>
         </div>
     )
 }
