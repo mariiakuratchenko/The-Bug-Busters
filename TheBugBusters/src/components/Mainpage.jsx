@@ -4,7 +4,7 @@ import React from 'react';
 function Mainpage(){
     return(
         <div>
-            <p>TheBugBusters</p>
+            <p>CONTINUE LIFE UNINTERRUPTED AND BUG-FREE</p>
         </div>
     )
 }

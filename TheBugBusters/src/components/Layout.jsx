@@ -7,15 +7,14 @@ function Layout() {
         <div>
             <nav className="navbar">
 
-                <Link to="/">Main</Link>
-                <Link to="/login">Login</Link>
-                <Link to="/logout">Logout</Link>
-                <Link to="/register">Register</Link>
-
+                <Link to="/">HOME</Link>
+                <Link to="/login">LOGIN</Link>
+                <Link to="/logout">LOGOUT</Link>
+                <Link to="/register">REGISTER</Link>
             </nav>
             <br />
             <hr />
-            <h1>Welcome To The Bug Busters</h1>
+            <h1 className="title-font">Welcome To The Bug Busters</h1>
         </div>
     )
 }
