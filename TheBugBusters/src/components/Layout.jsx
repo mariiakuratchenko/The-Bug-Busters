@@ -2,19 +2,16 @@ import { Link, useLocation } from "react-router-dom";
 
 
 function Layout() {
+    const location = useLocation();
 
     return (
         <div>
             <nav className="navbar">
-
-                <Link to="/">HOME</Link>
-                <Link to="/login">LOGIN</Link>
-                <Link to="/logout">LOGOUT</Link>
-                <Link to="/register">REGISTER</Link>
+                <Link to="/" className={location.pathname === "/" ? "active" : ""}>HOME</Link>
+                <Link to="/login" className={location.pathname === "/login" ? "active" : ""}>LOGIN</Link>
+                <Link to="/logout" className={location.pathname === "/logout" ? "active" : ""}>LOGOUT</Link>
+                <Link to="/register" className={location.pathname === "/register" ? "active" : ""}>REGISTER</Link>
             </nav>
-            <br />
-            <hr />
-            <h1 className="title-font">Welcome To The Bug Busters</h1>
         </div>
     )
 }
