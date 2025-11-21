@@ -7,4 +7,4 @@ router.post("/register", ctrl.register);
 router.post("/login", ctrl.login);
 router.get("/me", auth, ctrl.me);
 
-module.exports = router; // <-- ÖNEMLİ
+module.exports = router; 
