@@ -10,18 +10,22 @@ function Mainpage(){
                 <button className="btn-primary">Explore Products</button>
             </div>
             <div className="hero-image">
-                {}
-                <div style={{ 
-                    width: '100%', 
-                    height: '400px', 
-                    backgroundColor: 'var(--color-neutral-border)', 
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--color-gunmetal)'
-                }}>
-                </div>
+                <img 
+                    src="https://images.pexels.com/photos/19351513/pexels-photo-19351513.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" 
+                    alt="Family enjoying bug-free outdoor time"
+                />
+                <p className="image-credit">
+                    Photo by{' '}
+                    <a 
+                        href="https://www.pexels.com/photo/man-and-woman-with-daughter-19351513/" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        style={{ color: 'var(--color-olive)', textDecoration: 'underline' }}
+                    >
+                        Juliane Monari
+                    </a>
+                    {' '}
+                </p>
             </div>
         </div>
     )
