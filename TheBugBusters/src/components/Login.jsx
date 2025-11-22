@@ -5,9 +5,9 @@ function Login(){
     return(
         <div>
             {/* Container for Login Form */}
-            <div className="container">
-            <div className="row">
-                <div className="offset-md-3 col-md-6">
+            <div>
+            <div>
+                <div>
                     <h1>Signin</h1>
                     {/* Login Form */}
                     <form>
