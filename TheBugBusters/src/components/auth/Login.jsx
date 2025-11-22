@@ -1,15 +1,21 @@
 // Login.jsx
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    //  (fetch/axios)
+    // For now, create a mock token. Replace this with actual API call later
+    const mockToken = "mock-jwt-token-" + Date.now();
+    login(mockToken);
     console.log("Login form submitted:", { email, password });
+    navigate("/");
   };
 
   return (

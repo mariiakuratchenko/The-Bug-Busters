@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "express": "^5.1.0",
-    "http": "^0.0.1-security",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router-dom": "^7.9.6"

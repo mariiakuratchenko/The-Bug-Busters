@@ -1,10 +1,14 @@
 // Logout.jsx
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 function Logout() {
-  // İstersen burada localStorage temizliği yapabilirsin
-  // useEffect(() => { localStorage.removeItem("authToken"); ... }, []);
+  const { logout } = useContext(AuthContext);
+
+  useEffect(() => {
+    logout();
+  }, [logout]);
 
   return (
     <main className="shell page-center">
