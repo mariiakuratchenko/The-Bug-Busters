@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import Mainpage from "./components/Mainpage";
-import Login from "./components/Login";
+import Login from "./components/auth/Login";
 import Logout from "./components/Logout";
-import Register from "./components/Register";
+import Register from "./components/auth/Register";
 import Layout from "./components/Layout";
 
 

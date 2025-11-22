@@ -4,7 +4,8 @@ import React from 'react';
 function Logout(){
     return(
         <div>
-            <p>Logout!</p>
+            <h1>Logout</h1>
+            <p>You have been logged out successfully.</p>
         </div>
     )
 }
