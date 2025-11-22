@@ -2,6 +2,9 @@ const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+
+
+
 exports.register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
@@ -48,9 +51,14 @@ exports.login = async (req, res, next) => {
 
 exports.me = async (req, res, next) => {
   try {
-    const me = await User.findById(req.user._id).select("-password");
-    res.json(me);
+
+    res.json({ message: "Protected route works" });
   } catch (e) {
     next(e);
   }
 };
+
+exports.logout = async (req, res) => {
+  return res.json({ message: "Logged out successfully" });
+};
+
