@@ -9,9 +9,8 @@
     "dev:frontend": "cd TheBugBusters && npm run dev",
     "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
     "start:backend": "cd backend && npm start",
-    "start:frontend": "cd TheBugBusters && npm run start",
-    "install:all": "npm install && cd backend && npm install && cd ../TheBugBusters && npm install",
-    "build:frontend": "cd TheBugBusters && npm run build"
+    "start:frontend": "cd TheBugBusters && npm run dev",
+    "install:all": "npm install && cd backend && npm install && cd ../TheBugBusters && npm install"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^5.1.1",
