@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Mainpage from "./components/Mainpage";
 import Login from "./components/auth/Login";
 import Logout from "./components/Logout";
@@ -8,8 +8,11 @@ import Layout from "./components/Layout";
 
 
 function MainRouter() {
+    const location = useLocation();
+    const isMainPage = location.pathname === "/";
+    
     return (
-        <div>
+        <div className={isMainPage ? "main-page-wrapper" : "other-pages-wrapper"}>
             <Layout />
             <Routes>
                 <Route path="/" element={<Mainpage />} />

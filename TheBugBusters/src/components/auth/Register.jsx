@@ -32,7 +32,7 @@ function Register() {
   };
 
   return (
-    <main className="shell page-center">
+    <main className="page-center">
       <div className="auth-card">
         <h1 className="auth-title">Create your account</h1>
         <p className="auth-subtitle">

@@ -19,7 +19,7 @@ function Mainpage() {
 
           <div className="hero-meta">
             <span className="hero-pill">24/7 Support</span>
-            <span className="hero-pill">Eco-Friendly Solutions</span>
+            <span className="hero-pill eco-badge">Eco-Friendly Solutions</span>
             <span className="hero-pill">Bug-Safe Guarantee</span>
           </div>
         </div>

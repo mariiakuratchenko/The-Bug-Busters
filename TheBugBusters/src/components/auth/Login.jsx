@@ -19,7 +19,7 @@ function Login() {
   };
 
   return (
-    <main className="shell page-center">
+    <main className="page-center">
       <div className="auth-card">
         <h1 className="auth-title">Welcome back</h1>
         <p className="auth-subtitle">

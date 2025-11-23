@@ -11,7 +11,7 @@ function Logout() {
   }, [logout]);
 
   return (
-    <main className="shell page-center">
+    <main className="page-center">
       <div className="status-card status-card-success">
         <div className="status-icon">✓</div>
         <h1 className="status-title">You have been logged out</h1>
