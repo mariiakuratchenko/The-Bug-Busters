@@ -1,13 +1,19 @@
 import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-app.use('/', (req, res) => {
-  res.send('Hello World');
+app.use(express.static(path.join(__dirname, 'dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-app.listen(3000, () => {
-  console.log('Server running at http://localhost:3000/');
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}/`);
 });
 
 export default app;
