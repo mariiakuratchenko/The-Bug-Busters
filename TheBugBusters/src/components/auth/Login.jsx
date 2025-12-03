@@ -1,4 +1,5 @@
-// Login.jsx
+//The-Bug-Busters-main\TheBugBusters\src\components\auth\Login.jsx
+
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
@@ -6,16 +7,39 @@ import { AuthContext } from "../../context/AuthContext";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // For now, create a mock token. Replace this with actual API call later
-    const mockToken = "mock-jwt-token-" + Date.now();
-    login(mockToken);
-    console.log("Login form submitted:", { email, password });
-    navigate("/");
+    setError("");
+    setLoading(true);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Login failed. Please try again.");
+        return;
+      }
+
+      // Login successful
+      login(data.token);
+      navigate("/");
+    } catch (err) {
+      setError("Network error. Please check your connection.");
+      console.error("Login error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -28,6 +52,7 @@ function Login() {
 
         <form className="form" onSubmit={handleSubmit}>
           {/* Email */}
+          {error && <p>{error}</p>}
           <div className="form-group">
             <label htmlFor="login-email" className="form-label">
               Email address
@@ -40,6 +65,7 @@ function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={loading}
             />
           </div>
 
@@ -56,6 +82,7 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={loading}
             />
           </div>
 
@@ -68,10 +95,9 @@ function Login() {
               Forgot password?
             </button>
           </div>
-
           {/* Submit */}
-          <button type="submit" className="btn-primary form-submit">
-            Login
+          <button type="submit" className="btn-primary form-submit" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
           </button>
 
           <div className="form-divider">

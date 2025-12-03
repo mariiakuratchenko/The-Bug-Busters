@@ -14,21 +14,66 @@ function Register() {
     confirmPassword: "",
   });
 
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setError("");
+    setSuccess("");
+    setLoading(true);
+
+    // Validate passwords match
     if (form.password !== form.confirmPassword) {
-      alert("Passwords do not match.");
+      setError("Passwords do not match.");
+      setLoading(false);
       return;
     }
-    
-    console.log("Register form submitted:", form);
-    navigate("/login");
+
+    // Validate password length
+    if (form.password.length < 6) {
+      setError("Password must be at least 6 characters long.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: `${form.firstName} ${form.lastName}`,
+          email: form.email,
+          password: form.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.message || "Registration failed. Please try again.");
+        return;
+      }
+
+      // Show success message
+      setSuccess("Account created successfully! Redirecting to login...");
+      
+      // Redirect after 2 seconds
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    } catch (err) {
+      setError("Network error. Please check your connection.");
+      console.error("Registration error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -55,6 +100,7 @@ function Register() {
                 value={form.firstName}
                 onChange={handleChange}
                 required
+                disabled={loading}
               />
             </div>
 
@@ -71,6 +117,7 @@ function Register() {
                 value={form.lastName}
                 onChange={handleChange}
                 required
+                disabled={loading}
               />
             </div>
           </div>
@@ -89,6 +136,7 @@ function Register() {
               value={form.email}
               onChange={handleChange}
               required
+              disabled={loading}
             />
           </div>
 
@@ -107,6 +155,7 @@ function Register() {
                 value={form.password}
                 onChange={handleChange}
                 required
+                disabled={loading}
               />
             </div>
 
@@ -123,14 +172,15 @@ function Register() {
                 value={form.confirmPassword}
                 onChange={handleChange}
                 required
+                disabled={loading}
               />
             </div>
           </div>
 
           {/* Submit row */}
           <div className="form-buttons-row">
-            <button type="submit" className="btn-primary">
-              Create account
+            <button type="submit" className="btn-primary" disabled={loading}>
+              {loading ? "Creating account..." : "Create account"}
             </button>
             <Link to="/" className="btn-ghost">
               Cancel
