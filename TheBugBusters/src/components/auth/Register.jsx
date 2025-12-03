@@ -85,6 +85,7 @@ function Register() {
         </p>
 
         <form className="form" onSubmit={handleSubmit}>
+          
           {/* Name row */}
           <div className="form-row">
             <div className="form-group">
