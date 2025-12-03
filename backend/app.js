@@ -34,8 +34,8 @@ app.use((req, res, next) => {
 
 // Global error handler
 app.use((err, _req, res, _next) => {
-  console.log("REQUEST:", req.method, req.url);
-  next();
+  console.error("Error:", err.message);
+  res.status(500).json({ message: "Internal server error" });
 });
 
 const port = process.env.PORT || 5000;
