@@ -1,4 +1,4 @@
-//The-Bug-Busters-main\TheBugBusters\src\components\auth\Login.jsx
+//TheBugBusters/src/components/auth/Login.jsx
 
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -95,21 +95,10 @@ function Login() {
               Forgot password?
             </button>
           </div>
+          
           {/* Submit */}
           <button type="submit" className="btn-primary form-submit" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
-          </button>
-
-          <div className="form-divider">
-            <span>or</span>
-          </div>
-
-          <button
-            type="button"
-            className="btn-ghost form-submit"
-            // onClick={() }
-          >
-            Continue with Google
           </button>
 
           <p className="form-footer-text">
