@@ -83,7 +83,7 @@ function Register() {
       <div className="auth-card">
         <h1 className="auth-title">Create your account</h1>
         <p className="auth-subtitle">
-          Join The Bug Busters and keep your world spotless and bug-free.
+          Join The Bug Busters and keep your world peaceful and bug-free.
         </p>
 
         <form className="form" onSubmit={handleSubmit}>

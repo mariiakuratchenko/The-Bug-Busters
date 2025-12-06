@@ -49,7 +49,7 @@ function Login() {
       <div className="auth-card">
         <h1 className="auth-title">Welcome back</h1>
         <p className="auth-subtitle">
-          Log in to manage your bug-free services and dashboard.
+          Log in to purchase our products.
         </p>
 
         <form className="form" onSubmit={handleSubmit}>

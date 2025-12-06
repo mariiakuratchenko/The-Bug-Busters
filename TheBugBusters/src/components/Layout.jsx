@@ -25,7 +25,7 @@ function Layout() {
           </div>
           <div>
             <div className="brand-name">The Bug Busters</div>
-            <div className="brand-tagline">Smart Protection · Clean Code</div>
+            <div className="brand-tagline">Reliable Protection</div>
           </div>
         </div>
 
