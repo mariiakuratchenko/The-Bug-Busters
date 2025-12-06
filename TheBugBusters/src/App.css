@@ -76,7 +76,7 @@ body {
 .navbar-left-group {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 40px;
 }
 
 .navbar-left {
@@ -94,7 +94,7 @@ body {
 .navbar-center {
   display: flex;
   align-items: center;
-  gap: 30px;
+  gap: 12px;
 }
 
 .brand-logo-wrapper {
