@@ -10,9 +10,7 @@ import ecoImg from "./auth/eco.avif"; // Eco-friendly glue trap image
 
 import "./ExploreProducts.css";
 
-// Backend portuna göre bunu ayarla:
-// 5001'de çalışıyorsa: "http://localhost:5001"
-// 5000'de çalışıyorsa: "http://localhost:5000"
+
 const API_BASE = "http://localhost:5001";
 
 const fakeProducts = [
@@ -98,7 +96,7 @@ function ExploreProducts() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // 🔄 Backend'den ürünleri çek
+  // 🔄 Backend
   useEffect(() => {
     async function fetchProducts() {
       try {
@@ -108,7 +106,7 @@ function ExploreProducts() {
         const res = await axios.get(`${API_BASE}/api/items`);
         const apiItems = res.data; // [{id, name, category, price}, ...]
 
-        // Backend'den gelen temel veriyi lokal detaylarla (resim, açıklama vb.) birleştir
+       
         const merged = apiItems.map((item) => {
           const local = fakeProducts.find((p) => p.id === item.id);
           return local ? { ...local, ...item } : item;
