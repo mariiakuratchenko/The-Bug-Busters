@@ -16,13 +16,13 @@ function Layout() {
       <div className="navbar shell">
         {/* Logo / Brand */}
         <div className="navbar-left">
-          <div className="brand-logo-wrapper">
+          <Link to="/" className="brand-logo-wrapper">
             <img 
               src={logo} 
               alt="The Bug Busters Logo" 
               className="brand-logo"
             />
-          </div>
+          </Link>
           <div>
             <div className="brand-name">The Bug Busters</div>
             <div className="brand-tagline">Reliable Protection</div>
