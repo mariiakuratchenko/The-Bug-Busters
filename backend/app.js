@@ -13,7 +13,11 @@ const app = express();
 // ===== MIDDLEWARELER =====
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://the-bug-busters-web.onrender.com",
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
 );
