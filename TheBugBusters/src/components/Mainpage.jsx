@@ -8,8 +8,7 @@ function Mainpage() {
         <div className="hero-text">
           <h1 className="hero-title">Continue Life Bug-Free</h1>
           <p className="hero-subtitle">
-            From real-world insects to software bugs, our team keeps your home
-            and your applications clean, safe and reliable.
+            From annoying wasps to itchy bed bugs, our products keep your family safe and happy.
           </p>
 
           <div className="hero-actions">
@@ -19,8 +18,6 @@ function Mainpage() {
 
           <div className="hero-meta">
             <span className="hero-pill">24/7 Support</span>
-            <span className="hero-pill eco-badge">Eco-Friendly Solutions</span>
-            <span className="hero-pill">Bug-Safe Guarantee</span>
           </div>
         </div>
 
@@ -34,33 +31,20 @@ function Mainpage() {
       </section>
 
       <section className="section">
-        <h2 className="section-title">Why customers trust The Bug Busters</h2>
-        <p className="section-description">
-          A professional experience both online and on-site. Our dashboard lets
-          you track service visits, product usage, and real-time notifications.
-        </p>
+        <h2 className="section-title">We have products for all types of bugs</h2>
 
         <div className="grid-3">
           <div className="card">
-            <h3 className="card-title">Smart Monitoring</h3>
-            <p className="card-text">
-              Our system detects unusual activity early and alerts you before
-              issues turn into infestations or critical bugs.
-            </p>
+            <h3 className="card-title">Pesky Wasps</h3>
+           
           </div>
           <div className="card">
-            <h3 className="card-title">Expert Team</h3>
-            <p className="card-text">
-              Certified technicians and developers work together to keep both
-              your home and your software protected.
-            </p>
+            <h3 className="card-title">Crawling Infestation</h3>
+           
           </div>
           <div className="card">
-            <h3 className="card-title">Clear Reporting</h3>
-            <p className="card-text">
-              Clean, visual reports with everything you need at a glance: visits,
-              fixes, upcoming maintenance, and more.
-            </p>
+            <h3 className="card-title">Itchy Bed Bugs</h3>
+            
           </div>
         </div>
       </section>
