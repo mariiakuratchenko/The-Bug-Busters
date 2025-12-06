@@ -6,11 +6,11 @@ import spray2Img from "./auth/spray2.jpeg";
 import coilImg from "./auth/coil.jpg";
 import defenderImg from "./auth/defender.jpg";
 import kidsImg from "./auth/kids.webp";
-import ecoImg from "./auth/eco.avif"; // Eco-friendly glue trap image
+import ecoImg from "./auth/eco.avif";
 
 import "./ExploreProducts.css";
 
-
+// Local dev için API adresi
 const API_BASE = "http://localhost:5001";
 
 const fakeProducts = [
@@ -88,15 +88,43 @@ const fakeProducts = [
   },
 ];
 
+const CART_STORAGE_KEY = "bugbusters_cart";
+const QUESTIONS_STORAGE_KEY = "bugbusters_questions";
+
 function ExploreProducts() {
   const [filter, setFilter] = useState("All");
   const [products, setProducts] = useState(fakeProducts);
+
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // 🔄 Backend
+  // Cart state (ürün + miktar)
+  const [cart, setCart] = useState(() => {
+    try {
+      const raw = localStorage.getItem(CART_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  });
+  const [cartMessage, setCartMessage] = useState("");
+  const [quantity, setQuantity] = useState(1); // modal için adet
+
+  // Question state
+  const [questionText, setQuestionText] = useState("");
+  const [questions, setQuestions] = useState(() => {
+    try {
+      const raw = localStorage.getItem(QUESTIONS_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch {
+      return [];
+    }
+  }); // {productId, text, createdAt}
+
+  // 🔄 Backend’ten ürünleri çek (varsa), yoksa fakeProducts kalır
   useEffect(() => {
     async function fetchProducts() {
       try {
@@ -104,9 +132,8 @@ function ExploreProducts() {
         setError("");
 
         const res = await axios.get(`${API_BASE}/api/items`);
-        const apiItems = res.data; // [{id, name, category, price}, ...]
+        const apiItems = res.data;
 
-       
         const merged = apiItems.map((item) => {
           const local = fakeProducts.find((p) => p.id === item.id);
           return local ? { ...local, ...item } : item;
@@ -115,8 +142,8 @@ function ExploreProducts() {
         setProducts(merged);
       } catch (err) {
         console.error("Error loading products from API:", err);
-        setError("Could not load products from the server. Showing demo data.");
-        setProducts(fakeProducts); // fallback
+        setError("");
+        setProducts(fakeProducts);
       } finally {
         setLoading(false);
       }
@@ -125,20 +152,103 @@ function ExploreProducts() {
     fetchProducts();
   }, []);
 
+  // Cart değişince localStorage’a yaz
+  useEffect(() => {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+  }, [cart]);
+
+  // Questions değişince localStorage’a yaz
+  useEffect(() => {
+    localStorage.setItem(QUESTIONS_STORAGE_KEY, JSON.stringify(questions));
+  }, [questions]);
+
   const filteredProducts =
     filter === "All"
       ? products
       : products.filter((p) => p.category === filter);
 
+  // Modal open
   const openModal = (product) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
+    setCartMessage("");
+    setQuestionText("");
+    setQuantity(1);
   };
 
+  // Modal close
   const closeModal = () => {
     setSelectedProduct(null);
     setIsModalOpen(false);
+    setCartMessage("");
+    setQuestionText("");
   };
+
+  // Quantity değiştir (1–10 arası)
+  const handleQuantityChange = (delta) => {
+    setQuantity((prev) => {
+      const next = prev + delta;
+      if (next < 1) return 1;
+      if (next > 10) return 10;
+      return next;
+    });
+  };
+
+  // ✅ ADD TO CART
+  const handleAddToCart = () => {
+    if (!selectedProduct) return;
+
+    setCart((prev) => {
+      const existing = prev.find((item) => item.id === selectedProduct.id);
+      if (existing) {
+        return prev.map((item) =>
+          item.id === selectedProduct.id
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        );
+      }
+      return [
+        ...prev,
+        {
+          id: selectedProduct.id,
+          name: selectedProduct.name,
+          price: selectedProduct.price,
+          imageUrl: selectedProduct.imageUrl,
+          quantity,
+        },
+      ];
+    });
+
+    setCartMessage(`Added ${quantity} item(s) to cart.`);
+  };
+
+  // ✅ SUBMIT QUESTION 
+  const handleSubmitQuestion = (e) => {
+    e.preventDefault();
+    if (!selectedProduct) return;
+    if (!questionText.trim()) return;
+
+    const newQuestion = {
+      productId: selectedProduct.id,
+      text: questionText.trim(),
+      createdAt: new Date().toISOString(),
+    };
+
+    setQuestions((prev) => [...prev, newQuestion]);
+    setQuestionText("");
+  };
+
+  // Seçili ürünün soruları
+  const currentProductQuestions = selectedProduct
+    ? questions.filter((q) => q.productId === selectedProduct.id)
+    : [];
+
+  // Cart toplam adet (ürün sayısı değil, quantity toplamı)
+  const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+  const cartTotal = cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 
   return (
     <div className="explore-page">
@@ -157,11 +267,16 @@ function ExploreProducts() {
             <span className="hero-pill">Lab Tested</span>
             <span className="hero-pill">Eco-Conscious Options</span>
           </div>
+
+          <p className="cart-indicator">
+            Cart: <strong>{cartCount}</strong> item(s) | Total:{" "}
+            <strong>${cartTotal.toFixed(2)}</strong>
+          </p>
         </div>
 
         <div className="explore-hero-stats">
           <div className="stat-card">
-            <span className="stat-number">6</span>
+            <span className="stat-number">{products.length}</span>
             <span className="stat-label">Core Products</span>
           </div>
           <div className="stat-card">
@@ -169,31 +284,25 @@ function ExploreProducts() {
             <span className="stat-label">Use Cases</span>
           </div>
           <div className="stat-card">
-            <span className="stat-number">24/7</span>
-            <span className="stat-label">Protection</span>
+            <span className="stat-number">{cartCount}</span>
+            <span className="stat-label">Items in Cart</span>
           </div>
         </div>
       </section>
 
       {/* FILTER BAR */}
       <div className="filter-bar">
-        {[
-          "All",
-          "Spray",
-          "Electric Zapper",
-          "Coil",
-          "Ultrasonic",
-          "Patch",
-          "Trap",
-        ].map((cat) => (
-          <button
-            key={cat}
-            className={filter === cat ? "filter-btn active" : "filter-btn"}
-            onClick={() => setFilter(cat)}
-          >
-            {cat}
-          </button>
-        ))}
+        {["All", "Spray", "Electric Zapper", "Coil", "Ultrasonic", "Patch", "Trap"].map(
+          (cat) => (
+            <button
+              key={cat}
+              className={filter === cat ? "filter-btn active" : "filter-btn"}
+              onClick={() => setFilter(cat)}
+            >
+              {cat}
+            </button>
+          )
+        )}
       </div>
 
       {/* LOADING & ERROR */}
@@ -233,13 +342,49 @@ function ExploreProducts() {
         ))}
       </section>
 
-      {/* PRODUCT DETAIL MODAL */}
+      {/* CART SECTION – sayfanın altında cart’ı görme */}
+      {cart.length > 0 && (
+        <section className="cart-section">
+          <h2 className="cart-title">Cart</h2>
+          <p className="cart-subtitle">
+            You have {cartCount} item(s) in your cart. Total:{" "}
+            <strong>${cartTotal.toFixed(2)}</strong>
+          </p>
+
+          <div className="cart-list">
+            {cart.map((item) => (
+              <div key={item.id} className="cart-row">
+                <div className="cart-row-left">
+                  <img
+                    src={item.imageUrl}
+                    alt={item.name}
+                    className="cart-thumb"
+                  />
+                  <div>
+                    <p className="cart-item-name">{item.name}</p>
+                    <p className="cart-item-price">
+                      ${item.price.toFixed(2)} each
+                    </p>
+                  </div>
+                </div>
+                <div className="cart-row-right">
+                  <span className="cart-item-qty">
+                    Qty: <strong>{item.quantity}</strong>
+                  </span>
+                  <span className="cart-item-total">
+                    ${(item.price * item.quantity).toFixed(2)}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* PRODUCT DETAIL MODAL (Add to Cart + Questions) */}
       {isModalOpen && selectedProduct && (
         <div className="modal-backdrop" onClick={closeModal}>
-          <div
-            className="modal-box"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="modal-box" onClick={(e) => e.stopPropagation()}>
             <button className="modal-close" onClick={closeModal}>
               ×
             </button>
@@ -252,6 +397,7 @@ function ExploreProducts() {
                   className="modal-img"
                 />
               </div>
+
               <div className="modal-info-side">
                 <p className="modal-eyebrow">Product Detail</p>
                 <h2>{selectedProduct.name}</h2>
@@ -284,13 +430,69 @@ function ExploreProducts() {
                   </div>
                 </div>
 
+                {/* Quantity + Add to cart */}
                 <div className="modal-bottom-row">
                   <span className="modal-price">
                     ${selectedProduct.price.toFixed(2)}
                   </span>
-                  <button className="modal-cta-btn">
-                    Add to service plan
+
+                  <div className="quantity-control">
+                    <button
+                      type="button"
+                      onClick={() => handleQuantityChange(-1)}
+                    >
+                      -
+                    </button>
+                    <span>{quantity}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleQuantityChange(1)}
+                    >
+                      +
+                    </button>
+                  </div>
+
+                  <button className="modal-cta-btn" onClick={handleAddToCart}>
+                    Add to cart
                   </button>
+                </div>
+
+                {cartMessage && (
+                  <p className="cart-message">{cartMessage}</p>
+                )}
+
+                {/* Question form */}
+                <div className="question-section">
+                  <h3 className="question-title">Question about this product?</h3>
+                  <form onSubmit={handleSubmitQuestion}>
+                    <textarea
+                      className="question-textarea"
+                      value={questionText}
+                      onChange={(e) => setQuestionText(e.target.value)}
+                      placeholder="Type your question here…"
+                      rows={3}
+                    />
+                    <button
+                      type="submit"
+                      className="question-submit-btn"
+                      disabled={!questionText.trim()}
+                    >
+                      Submit question
+                    </button>
+                  </form>
+
+                  {currentProductQuestions.length > 0 && (
+                    <div className="question-list">
+                      <h4>Previous questions</h4>
+                      <ul>
+                        {currentProductQuestions.map((q, idx) => (
+                          <li key={idx}>
+                            <span className="question-text">{q.text}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
