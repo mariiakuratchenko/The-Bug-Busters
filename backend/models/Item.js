@@ -6,12 +6,12 @@ const itemSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },           // “Citronella Coil”, “ZapMaster 3000”
     brand: { type: String, default: 'Generic' },
-    type: {                                                       // ürün tipi
+    type: {                                                       // 
       type: String,
       enum: ['spray', 'lotion', 'coil', 'plug_in_electric', 'ultrasonic', 'trap'],
       required: true
     },
-    targets: {                                                    // hangi böcek grupları
+    targets: {                                                    // 
       type: [String],
       enum: ['mosquito', 'fly', 'spider', 'wasp', 'ant', 'moth', 'roach'],
       required: true

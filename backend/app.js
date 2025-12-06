@@ -1,32 +1,45 @@
-require('dotenv').config();
+// backend/app.js
+console.log("APP.JS is working now");
+
+require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const helmet = require("helmet");
+const itemsRouter = require("./routes/items");
 
 const app = express();
 
-// Middlewares
+// ===== MIDDLEWARELER =====
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(express.json());
-app.use(cors());
 app.use(helmet());
 
+// ===== ROUTES =====
 
+// Products / items endpoint
+app.use("/api/items", itemsRouter);
 
+// Health check
+app.get("/api/health", (_req, res) => {
+  res.json({ ok: true });
+});
 
-// DB
+// Auth routes (varsa)
+app.use("/api/auth", require("./routes/authRoutes"));
+
+// 
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("Mongo connected"))
-  .catch((err) => console.error("Mongo error", err));
+  .catch((err) => console.error("Mongo error:", err.message));
 
-// Health check
-app.get("/api/health", (_req, res) => res.json({ ok: true }));
-
-// Routes
-app.use("/api/auth", require("./routes/authRoutes"));
-
-// 404 — EN SONDA
+// 404 middleware
 app.use((req, res, next) => {
   if (res.headersSent) return next();
   res.status(404).json({ message: "Not Found" });
@@ -38,7 +51,8 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ message: "Internal server error" });
 });
 
-const port = process.env.PORT || 5000;
+
+const port = process.env.PORT || 5001;
 app.listen(port, () => {
   console.log(`Server on ${port}`);
 });
