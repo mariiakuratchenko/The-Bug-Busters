@@ -71,6 +71,7 @@ body {
   border-bottom: none;
   box-shadow: none;
   height: auto;
+  gap: 24px;
 }
 
 .navbar-left {
@@ -82,6 +83,14 @@ body {
 .navbar-left > div:last-child {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+}
+
+.navbar-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
   justify-content: center;
 }
 

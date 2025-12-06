@@ -29,22 +29,32 @@ function Layout() {
           </div>
         </div>
 
-        {/* Navigation */}
-        <nav className="navbar-right">
+        {/* Navigation Links */}
+        <nav className="navbar-center">
           <Link to="/" className={isActive("/")}>
             Home
           </Link>
+          <Link to="/explore" className={isActive("/explore")}>
+            Products
+          </Link>
+          <Link to="/about" className={isActive("/about")}>
+            About Us
+          </Link>
+        </nav>
+
+        {/* Auth Buttons */}
+        <nav className="navbar-right">
           {loggedIn ? (
             <Link to="/logout" className={`${isActive("/logout")} nav-auth`}>
-              Logout
+              Sign Out
             </Link>
           ) : (
             <>
               <Link to="/login" className={`${isActive("/login")} nav-auth`}>
-                Login
+                Sign In
               </Link>
               <Link to="/register" className={`${isActive("/register")} nav-auth`}>
-                Register
+                Sign Up
               </Link>
             </>
           )}

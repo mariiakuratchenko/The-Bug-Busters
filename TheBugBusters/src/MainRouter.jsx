@@ -6,6 +6,7 @@ import Login from "./components/auth/Login";
 import Logout from "./components/Logout";
 import Register from "./components/auth/Register";
 import Layout from "./components/Layout";
+import AboutUs from "./components/AboutUs";
 
 function MainRouter() {
   const location = useLocation();
@@ -19,9 +20,8 @@ function MainRouter() {
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<Register />} />
-
-        {/*New: Page of Explore Products */}
         <Route path="/explore" element={<ExploreProducts />} />
+        <Route path="/about" element={<AboutUs />} />
       </Routes>
     </div>
   );
