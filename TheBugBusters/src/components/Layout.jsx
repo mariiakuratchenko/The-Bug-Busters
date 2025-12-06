@@ -14,33 +14,36 @@ function Layout() {
   return (
     <header className="navbar-wrapper">
       <div className="navbar shell">
-        {/* Logo / Brand */}
-        <div className="navbar-left">
-          <Link to="/" className="brand-logo-wrapper">
-            <img 
-              src={logo} 
-              alt="The Bug Busters Logo" 
-              className="brand-logo"
-            />
-          </Link>
-          <div>
-            <div className="brand-name">The Bug Busters</div>
-            <div className="brand-tagline">Reliable Protection</div>
-          </div>
-        </div>
 
-        {/* Navigation Links */}
-        <nav className="navbar-center">
-          <Link to="/" className={isActive("/")}>
-            Home
-          </Link>
-          <Link to="/explore" className={isActive("/explore")}>
-            Products
-          </Link>
-          <Link to="/about" className={isActive("/about")}>
-            About Us
-          </Link>
-        </nav>
+        <div className="navbar-left-group">
+          <div className="navbar-left">
+            <Link to="/" className="brand-logo-wrapper">
+              <img 
+                src={logo} 
+                alt="The Bug Busters Logo" 
+                className="brand-logo"
+              />
+
+            <div>
+              <div className="brand-name">The Bug Busters</div>
+              <div className="brand-tagline">Reliable Protection</div>
+            </div>            
+            </Link>
+          </div>
+
+          {/* Navigation Links */}
+          <nav className="navbar-center">
+            <Link to="/" className={isActive("/")}>
+              Home
+            </Link>
+            <Link to="/explore" className={isActive("/explore")}>
+              Products
+            </Link>
+            <Link to="/about" className={isActive("/about")}>
+              About Us
+            </Link>
+          </nav>
+        </div>
 
         {/* Auth Buttons */}
         <nav className="navbar-right">

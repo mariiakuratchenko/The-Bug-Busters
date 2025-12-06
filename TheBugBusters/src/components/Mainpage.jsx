@@ -18,7 +18,9 @@ function Mainpage() {
             <Link to="/explore">
               <button className="btn-primary">Explore Products</button>
             </Link>
+            <Link to="/about">
             <button className="btn-secondary">Meet the Team</button>
+            </Link>
           </div>
 
           <div className="hero-meta">
