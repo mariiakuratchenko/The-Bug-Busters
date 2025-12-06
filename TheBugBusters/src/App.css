@@ -71,7 +71,6 @@ body {
   border-bottom: none;
   box-shadow: none;
   height: auto;
-  gap: 24px;
 }
 
 .navbar-left {
@@ -90,8 +89,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 1;
-  justify-content: center;
+  margin-left: 24px;
 }
 
 .brand-logo-wrapper {
