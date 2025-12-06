@@ -48,7 +48,7 @@ function Mainpage() {
         </p>
 
         <div className="grid-3">
-          <div className="card">
+          <Link to="/explore" className="card card-button">
             <h3 className="card-title">Crawling Insects</h3>
             <ul>
               <li>Ants</li>
@@ -56,43 +56,43 @@ function Mainpage() {
               <li>Spiders</li>
               <li>Silverfish</li>
             </ul>
-          </div>
+          </Link>
 
-          <div className="card">
+          <Link to="/explore" className="card card-button">
             <h3 className="card-title">Flying Insects</h3>
             <ul>
               <li>Flies</li>
               <li>Mosquitoes</li>
               <li>Gnats</li>
             </ul>
-          </div>
+          </Link>
 
-          <div className="card">
+          <Link to="/explore" className="card card-button">
             <h3 className="card-title">Flea, Tick & Bed Bugs</h3>
             <ul>
               <li>Fleas</li>
               <li>Ticks</li>
               <li>Bed Bugs</li>
             </ul>
-          </div>
+          </Link>
 
-          <div className="card">
+          <Link to="/explore" className="card card-button">
             <h3 className="card-title">Multi-Bug Protection</h3>
             <ul>
               <li>Assorted Packs</li>
               <li>Indoor Use</li>
               <li>Outdoor Use</li>
             </ul>
-          </div>
+          </Link>
 
-          <div className="card">
+          <Link to="/explore" className="card card-button">
             <h3 className="card-title">Wasps & Stinging Insects</h3>
             <ul>
               <li>Wasps</li>
               <li>Hornets</li>
               <li>Yellow Jackets</li>
             </ul>
-          </div>
+          </Link>
         </div>
       </section>
     </main>
