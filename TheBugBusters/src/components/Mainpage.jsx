@@ -12,8 +12,6 @@ function Mainpage() {
           </p>
 
           <div className="hero-actions">
-            <button className="btn-primary">Explore Products</button>
-            <button className="btn-secondary">Meet the Team</button>
           </div>
 
           <div className="hero-meta">
@@ -32,19 +30,52 @@ function Mainpage() {
 
       <section className="section">
         <h2 className="section-title">We have products for all types of bugs</h2>
-
         <div className="grid-3">
+
           <div className="card">
-            <h3 className="card-title">Pesky Wasps</h3>
-           
+            <h3 className="card-title">Crawling Insects</h3>
+            <ul>
+              <li>Ants</li>
+              <li>Cockroaches</li>
+              <li>Spiders</li>
+              <li>Silverfish</li>
+            </ul>
           </div>
+
           <div className="card">
-            <h3 className="card-title">Crawling Infestation</h3>
-           
+            <h3 className="card-title">Flying Insects</h3>
+            <ul>
+              <li>Flies</li>
+              <li>Mosquitoes</li>
+              <li>Gnats</li>
+            </ul>
           </div>
+
           <div className="card">
-            <h3 className="card-title">Itchy Bed Bugs</h3>
-            
+            <h3 className="card-title">Flea, Tick and Bed Bugs</h3>
+            <ul>
+              <li>Fleas</li>
+              <li>Ticks</li>
+              <li>Bed Bugs</li>
+            </ul>
+          </div>
+
+          <div className="card">
+            <h3 className="card-title">Multi-Bugs</h3>
+            <ul>
+              <li>Assorted Pack</li>
+              <li>Inside Use</li>
+              <li>Outside Use</li>
+            </ul>
+          </div>
+
+          <div className="card">
+            <h3 className="card-title">Wasps</h3>
+            <ul>
+              <li>Wasps</li>
+              <li>Hornets</li>
+              <li>Yellow Jackets</li>
+            </ul>
           </div>
         </div>
       </section>
