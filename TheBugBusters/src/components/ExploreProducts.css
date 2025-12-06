@@ -5,8 +5,8 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  background: radial-gradient(circle at top left, #f7fafc, #eef2f7);
-  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--color-off-white);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 /* ==== HERO SECTION ==== */
@@ -27,7 +27,7 @@
   text-transform: uppercase;
   font-size: 0.8rem;
   letter-spacing: 0.16em;
-  color: #777;
+  color: var(--color-neutral-border);
   margin-bottom: 0.6rem;
 }
 
@@ -36,10 +36,12 @@
   font-weight: 700;
   margin-bottom: 0.6rem;
   line-height: 1.1;
+  color: var(--color-olive);
 }
 
 .explore-subtitle {
-  color: #555;
+  color: var(--color-gunmetal);
+  opacity: 0.8;
   font-size: 1.02rem;
   margin-bottom: 1.6rem;
   max-width: 520px;
@@ -54,8 +56,8 @@
 .hero-pill {
   padding: 0.4rem 0.9rem;
   border-radius: 999px;
-  background: #111;
-  color: #fff;
+  background: var(--color-olive);
+  color: var(--color-white);
   font-size: 0.8rem;
 }
 
@@ -67,12 +69,12 @@
 }
 
 .stat-card {
-  background: #ffffff;
+  background: var(--color-white);
   border-radius: 18px;
   padding: 1rem 0.8rem;
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 6px 18px rgba(46, 54, 62, 0.06);
   text-align: center;
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--color-neutral-border);
 }
 
 .stat-number {
@@ -80,11 +82,13 @@
   font-size: 1.7rem;
   font-weight: 700;
   margin-bottom: 0.1rem;
+  color: var(--color-olive);
 }
 
 .stat-label {
   font-size: 0.8rem;
-  color: #666;
+  color: var(--color-gunmetal);
+  opacity: 0.8;
 }
 
 /* ==== FILTER BAR ==== */
@@ -100,8 +104,9 @@
 .filter-btn {
   padding: 0.55rem 1.4rem;
   border-radius: 25px;
-  border: 1px solid #ddd;
-  background: #fff;
+  border: 1px solid var(--color-neutral-border);
+  background: var(--color-white);
+  color: var(--color-gunmetal);
   cursor: pointer;
   transition: all 0.2s ease;
   font-weight: 500;
@@ -109,14 +114,15 @@
 }
 
 .filter-btn:hover {
-  background: #111;
-  color: #fff;
+  background: var(--color-olive);
+  color: var(--color-white);
+  border-color: var(--color-olive);
 }
 
 .filter-btn.active {
-  background: #111;
-  color: #fff;
-  border-color: #111;
+  background: var(--color-olive);
+  color: var(--color-white);
+  border-color: var(--color-olive);
 }
 
 /* ==== GRID ==== */
@@ -130,19 +136,20 @@
 
 /* ==== PRODUCT CARD ==== */
 .product-card {
-  background: #fff;
+  background: var(--color-white);
   border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0px 10px 28px rgba(0, 0, 0, 0.09);
+  box-shadow: 0 6px 18px rgba(46, 54, 62, 0.06);
   transition: all 0.25s ease-in-out;
-  border: 1px solid #f0f0f0;
+  border: 1px solid var(--color-neutral-border);
   display: flex;
   flex-direction: column;
 }
 
 .product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0px 16px 38px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(46, 54, 62, 0.12);
+  border-color: var(--color-olive);
 }
 
 /* ==== IMAGE AREA ==== */
@@ -150,7 +157,7 @@
   position: relative;
   width: 100%;
   height: 220px;
-  background: linear-gradient(135deg, #f8f8f8, #e3e7ee);
+  background: var(--color-off-white);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -176,8 +183,8 @@
   padding: 0.2rem 0.7rem;
   border-radius: 999px;
   font-size: 0.75rem;
-  background: rgba(0, 0, 0, 0.75);
-  color: #fff;
+  background: var(--color-olive);
+  color: var(--color-white);
 }
 
 .chip-insect {
@@ -195,11 +202,12 @@
 .product-info h2 {
   font-size: 1.12rem;
   margin: 0;
+  color: var(--color-gunmetal);
 }
 
 .category {
   font-size: 0.8rem;
-  color: #888;
+  color: var(--color-neutral-border);
   text-transform: uppercase;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -207,7 +215,8 @@
 
 .description {
   font-size: 0.9rem;
-  color: #444;
+  color: var(--color-gunmetal);
+  opacity: 0.8;
 }
 
 /* ==== TAGS ==== */
@@ -216,11 +225,12 @@
   justify-content: flex-start;
   gap: 0.5rem;
   font-size: 0.8rem;
-  color: #333;
+  color: var(--color-gunmetal);
 }
 
 .tags span {
-  background: #f2f2f2;
+  background: var(--accent-olive-soft);
+  color: var(--color-olive);
   padding: 0.25rem 0.6rem;
   border-radius: 999px;
 }
@@ -236,29 +246,30 @@
 .price {
   font-size: 1.15rem;
   font-weight: 700;
-  color: #111;
+  color: var(--color-olive);
 }
 
 .buy-btn {
   padding: 0.45rem 1.2rem;
   border-radius: 999px;
   border: none;
-  background: #111;
-  color: #fff;
+  background: var(--color-burnt-orange);
+  color: var(--color-white);
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 0.86rem;
+  font-weight: 500;
 }
 
 .buy-btn:hover {
-  background: #333;
+  background: #C65F14;
 }
 
 /* ==== MODAL ==== */
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.55);
+  background: rgba(46, 54, 62, 0.55);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -294,7 +305,7 @@
 }
 
 .modal-image-side {
-  background: radial-gradient(circle at top, #fdfdfd, #e6edf7);
+  background: var(--color-off-white);
   border-radius: 14px;
   padding: 1rem;
   display: flex;
@@ -311,18 +322,20 @@
 .modal-info-side h2 {
   margin: 0.2rem 0 0.4rem;
   font-size: 1.4rem;
+  color: var(--color-olive);
 }
 
 .modal-eyebrow {
   text-transform: uppercase;
   font-size: 0.78rem;
   letter-spacing: 0.14em;
-  color: #7a7a7a;
+  color: var(--color-neutral-border);
 }
 
 .modal-category {
   font-size: 0.85rem;
-  color: #666;
+  color: var(--color-gunmetal);
+  opacity: 0.8;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 0.8rem;
@@ -330,7 +343,8 @@
 
 .modal-description {
   font-size: 0.92rem;
-  color: #444;
+  color: var(--color-gunmetal);
+  opacity: 0.8;
   margin-bottom: 1rem;
 }
 
@@ -344,7 +358,7 @@
 
 .meta-label {
   display: block;
-  color: #777;
+  color: var(--color-neutral-border);
   text-transform: uppercase;
   font-size: 0.7rem;
   letter-spacing: 0.08em;
@@ -353,7 +367,7 @@
 
 .meta-value {
   font-weight: 600;
-  color: #222;
+  color: var(--color-gunmetal);
 }
 
 .modal-bottom-row {
@@ -365,20 +379,22 @@
 .modal-price {
   font-size: 1.3rem;
   font-weight: 700;
+  color: var(--color-olive);
 }
 
 .modal-cta-btn {
   padding: 0.5rem 1.3rem;
   border-radius: 999px;
   border: none;
-  background: #111827;
-  color: #fff;
+  background: var(--color-burnt-orange);
+  color: var(--color-white);
   cursor: pointer;
   font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .modal-cta-btn:hover {
-  background: #020617;
+  background: #C65F14;
 }
 
 /* ==== RESPONSIVE ==== */
