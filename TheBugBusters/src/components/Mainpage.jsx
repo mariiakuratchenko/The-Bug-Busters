@@ -5,12 +5,13 @@ import { Link } from "react-router-dom";
 function Mainpage() {
   return (
     <main className="shell">
+      {/* HERO SECTION */}
       <section className="hero">
         <div className="hero-text">
           <h1 className="hero-title">Continue Life Bug-Free</h1>
           <p className="hero-subtitle">
-            From annoying wasps to itchy bed bugs, our products keep your family
-            safe and happy.
+            From annoying wasps to itchy bed bugs, our products help keep your
+            home, family, and pets safe and comfortable all year long.
           </p>
 
           <div className="hero-actions">
@@ -22,6 +23,8 @@ function Mainpage() {
 
           <div className="hero-meta">
             <span className="hero-pill">24/7 Support</span>
+            <span className="hero-pill">Indoor & Outdoor Solutions</span>
+            <span className="hero-pill">Family & Pet Friendly Options</span>
           </div>
         </div>
 
@@ -34,10 +37,15 @@ function Mainpage() {
         </div>
       </section>
 
+      {/* PRODUCT CATEGORY SECTION */}
       <section className="section">
         <h2 className="section-title">
           We have products for all types of bugs
         </h2>
+        <p className="section-description">
+          Choose from targeted solutions for specific insects or multi-purpose
+          protection for your entire home.
+        </p>
 
         <div className="grid-3">
           <div className="card">
@@ -60,7 +68,7 @@ function Mainpage() {
           </div>
 
           <div className="card">
-            <h3 className="card-title">Flea, Tick and Bed Bugs</h3>
+            <h3 className="card-title">Flea, Tick & Bed Bugs</h3>
             <ul>
               <li>Fleas</li>
               <li>Ticks</li>
@@ -69,16 +77,16 @@ function Mainpage() {
           </div>
 
           <div className="card">
-            <h3 className="card-title">Multi-Bugs</h3>
+            <h3 className="card-title">Multi-Bug Protection</h3>
             <ul>
-              <li>Assorted Pack</li>
-              <li>Inside Use</li>
-              <li>Outside Use</li>
+              <li>Assorted Packs</li>
+              <li>Indoor Use</li>
+              <li>Outdoor Use</li>
             </ul>
           </div>
 
           <div className="card">
-            <h3 className="card-title">Wasps</h3>
+            <h3 className="card-title">Wasps & Stinging Insects</h3>
             <ul>
               <li>Wasps</li>
               <li>Hornets</li>
