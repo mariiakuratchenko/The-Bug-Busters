@@ -94,7 +94,7 @@ body {
 .navbar-center {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 16px;
 }
 
 .brand-logo-wrapper {
