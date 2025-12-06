@@ -76,7 +76,7 @@ body {
 .navbar-left-group {
   display: flex;
   align-items: center;
-  gap: 60px;
+  gap: 80px;
 }
 
 .navbar-left {
