@@ -7,6 +7,7 @@ import Login from "./components/auth/Login";
 import Logout from "./components/Logout";
 import Register from "./components/auth/Register";
 import AboutUs from "./components/AboutUs";
+import Checkout from "./components/Checkout";
 
 // Layout (Navbar + Footer)
 import Layout from "./components/Layout";
@@ -34,6 +35,9 @@ function MainRouter() {
 
         {/* ABOUT / TEAM PAGE */}
         <Route path="/about" element={<AboutUs />} />
+
+        {/* CHECKOUT PAGE */}
+        <Route path="/checkout" element={<Checkout />} />
 
         {/* Optional: 404 page */}
         {/* <Route path="*" element={<NotFound />} /> */}

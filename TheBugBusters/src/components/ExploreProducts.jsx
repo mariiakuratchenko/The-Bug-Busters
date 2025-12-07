@@ -1,6 +1,8 @@
 // ExploreProducts.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 
 import sprayImg from "./auth/spray.jpg";
 import spray2Img from "./auth/spray2.jpeg";
@@ -93,6 +95,8 @@ const CART_STORAGE_KEY = "bugbusters_cart";
 const QUESTIONS_STORAGE_KEY = "bugbusters_questions";
 
 function ExploreProducts() {
+  const { loggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [filter, setFilter] = useState("All");
   const [products, setProducts] = useState(fakeProducts);
 
@@ -202,6 +206,11 @@ function ExploreProducts() {
 
   // ✅ SEPETE EKLE
   const handleAddToCart = () => {
+    if (!loggedIn) {
+      alert("Please login to add items to cart");
+      navigate("/login");
+      return;
+    }
     if (!selectedProduct) return;
 
     setCart((prev) => {
@@ -254,6 +263,11 @@ function ExploreProducts() {
   // ✅ QUESTION SUBMIT
   const handleSubmitQuestion = (e) => {
     e.preventDefault();
+    if (!loggedIn) {
+      alert("Please login to ask questions");
+      navigate("/login");
+      return;
+    }
     if (!selectedProduct) return;
     if (!questionText.trim()) return;
 
@@ -375,8 +389,34 @@ function ExploreProducts() {
         ))}
       </section>
 
+      {/* LOGIN PROMPT */}
+      {!loggedIn && (
+        <section className="login-prompt-section">
+          <div className="login-prompt-card">
+            <h2 className="login-prompt-title">Sign In Required</h2>
+            <p className="login-prompt-text">
+              Please sign in to add items to your cart, ask questions about products, and complete your purchase.
+            </p>
+            <div className="login-prompt-actions">
+              <button
+                className="btn-primary"
+                onClick={() => navigate("/login")}
+              >
+                Sign In
+              </button>
+              <button
+                className="btn-secondary"
+                onClick={() => navigate("/register")}
+              >
+                Create Account
+              </button>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* CART SECTION */}
-      {cart.length > 0 && (
+      {cart.length > 0 && loggedIn && (
         <section className="cart-section">
           <h2 className="cart-title">Cart</h2>
           <p className="cart-subtitle">
@@ -445,6 +485,13 @@ function ExploreProducts() {
               onClick={handleClearCart}
             >
               Clear cart
+            </button>
+            <button
+              type="button"
+              className="cart-checkout-btn"
+              onClick={() => window.location.href = '/checkout'}
+            >
+              Proceed to Checkout
             </button>
           </div>
         </section>
