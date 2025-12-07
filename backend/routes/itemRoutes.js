@@ -2,13 +2,13 @@
 
 const router = require('express').Router();
 const ctrl = require('../controllers/itemController');
-const auth = require('../middleware/auth');
+const adminAuth = require('../middleware/adminAuth');
 
 
 router.get('/', ctrl.getItems);
 router.get('/:id', ctrl.getItem);
-router.post('/', auth, ctrl.createItem);
-router.put('/:id', auth, ctrl.updateItem);
-router.delete('/:id', auth, ctrl.deleteItem);
+router.post('/', adminAuth, ctrl.createItem);
+router.put('/:id', adminAuth, ctrl.updateItem);
+router.delete('/:id', adminAuth, ctrl.deleteItem);
 
 module.exports = router;

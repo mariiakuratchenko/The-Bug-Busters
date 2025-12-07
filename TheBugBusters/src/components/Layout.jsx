@@ -6,7 +6,7 @@ import logo from "../assets/logo.png";
 
 function Layout() {
   const location = useLocation();
-  const { loggedIn } = useContext(AuthContext);
+  const { loggedIn, isAdmin } = useContext(AuthContext);
 
   const isActive = (path) =>
     location.pathname === path ? "nav-link nav-link-active" : "nav-link";
@@ -41,6 +41,11 @@ function Layout() {
             <Link to="/about" className={isActive("/about")}>
               About Us
             </Link>
+            {isAdmin && (
+              <Link to="/admin" className={isActive("/admin")}>
+                Admin
+              </Link>
+            )}
           </nav>
         </div>
 

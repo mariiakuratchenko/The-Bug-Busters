@@ -261,7 +261,7 @@ function ExploreProducts() {
   };
 
   // ✅ QUESTION SUBMIT
-  const handleSubmitQuestion = (e) => {
+  const handleSubmitQuestion = async (e) => {
     e.preventDefault();
     if (!loggedIn) {
       alert("Please login to ask questions");
@@ -271,14 +271,33 @@ function ExploreProducts() {
     if (!selectedProduct) return;
     if (!questionText.trim()) return;
 
-    const newQuestion = {
-      productId: selectedProduct.id,
-      text: questionText.trim(),
-      createdAt: new Date().toISOString(),
-    };
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${API_BASE}/api/questions`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          text: questionText.trim(),
+          productId: selectedProduct.id.toString(),
+          productName: selectedProduct.name,
+        }),
+      });
 
-    setQuestions((prev) => [...prev, newQuestion]);
-    setQuestionText("");
+      if (response.ok) {
+        const newQuestion = await response.json();
+        setQuestions((prev) => [...prev, newQuestion]);
+        setQuestionText("");
+        alert("Question submitted successfully!");
+      } else {
+        alert("Failed to submit question");
+      }
+    } catch (err) {
+      console.error("Error submitting question:", err);
+      alert("Network error. Please try again.");
+    }
   };
 
   // Seçili ürünün soruları

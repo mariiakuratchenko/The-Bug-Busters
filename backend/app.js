@@ -21,7 +21,8 @@ app.use(
     credentials: true,
   })
 );
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(helmet());
 
 // ===== ROUTES =====
@@ -37,10 +38,18 @@ app.get("/api/health", (_req, res) => {
 // Auth routes (varsa)
 app.use("/api/auth", require("./routes/authRoutes"));
 
+// Question routes
+app.use("/api/questions", require("./routes/questionRoutes"));
+
 // 
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log("Mongo connected"))
+  .then(() => {
+    console.log("Mongo connected");
+    // Ensure admin account exists
+    const authController = require("./controllers/authController");
+    authController.ensureAdminExists();
+  })
   .catch((err) => console.error("Mongo error:", err.message));
 
 // 404 middleware

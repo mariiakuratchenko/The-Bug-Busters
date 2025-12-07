@@ -19,11 +19,34 @@ exports.register = async (req, res, next) => {
     }
 
     const hashed = await bcrypt.hash(password, 10);
-    const user = await User.create({ name, email, password: hashed });
+    // Check if registering admin account
+    const isAdmin = email === "admin@bugbusters.com";
+    const user = await User.create({ name, email, password: hashed, isAdmin });
 
     res.status(201).json({ id: user._id, email: user.email });
   } catch (e) {
     next(e);
+  }
+};
+
+// Ensure admin account exists
+exports.ensureAdminExists = async () => {
+  try {
+    const adminEmail = "admin@bugbusters.com";
+    const adminExists = await User.findOne({ email: adminEmail });
+    
+    if (!adminExists) {
+      const hashedPassword = await bcrypt.hash("password", 10);
+      await User.create({
+        name: "Admin User",
+        email: adminEmail,
+        password: hashedPassword,
+        isAdmin: true
+      });
+      console.log("Admin account created: admin@bugbusters.com / password");
+    }
+  } catch (e) {
+    console.error("Error ensuring admin exists:", e);
   }
 };
 
@@ -38,12 +61,12 @@ exports.login = async (req, res, next) => {
     if (!ok) return res.status(400).json({ message: "Wrong password" });
 
     const token = jwt.sign(
-      { _id: user._id },
+      { _id: user._id, isAdmin: user.isAdmin },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
 
-    res.json({ token });
+    res.json({ token, isAdmin: user.isAdmin });
   } catch (e) {
     next(e);
   }

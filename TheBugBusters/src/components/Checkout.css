@@ -3,7 +3,7 @@
 .checkout-page {
   min-height: 80vh;
   padding: 2rem 1rem;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: var(--color-off-white);
 }
 
 .checkout-container {
@@ -16,7 +16,7 @@
   font-weight: 700;
   text-align: center;
   margin-bottom: 2rem;
-  color: #1a202c;
+  color: var(--color-olive);
 }
 
 .checkout-layout {
@@ -161,8 +161,8 @@
 
 .form-input:focus {
   outline: none;
-  border-color: #4299e1;
-  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.1);
+  border-color: var(--color-burnt-orange);
+  box-shadow: 0 0 0 3px rgba(216, 115, 31, 0.1);
 }
 
 .form-input:disabled {
@@ -177,7 +177,7 @@
 }
 
 .checkout-submit-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--color-burnt-orange);
   color: white;
   font-size: 1.125rem;
   font-weight: 600;
@@ -191,11 +191,11 @@
 
 .checkout-submit-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(102, 126, 234, 0.4);
+  box-shadow: 0 8px 16px rgba(216, 115, 31, 0.4);
 }
 
 .checkout-submit-btn:disabled {
-  background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
+  background: var(--color-neutral-border);
   cursor: not-allowed;
   transform: none;
 }
@@ -226,7 +226,7 @@
 .success-icon {
   width: 100px;
   height: 100px;
-  background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+  background: var(--color-olive);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -254,7 +254,7 @@
 .success-title {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #1a202c;
+  color: var(--color-olive);
   margin-bottom: 1rem;
 }
 

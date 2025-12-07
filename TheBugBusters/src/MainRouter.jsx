@@ -9,6 +9,7 @@ import Register from "./components/auth/Register";
 import AboutUs from "./components/AboutUs";
 import Checkout from "./components/Checkout";
 import AccountSettings from "./components/AccountSettings";
+import AdminDashboard from "./components/AdminDashboard";
 
 // Layout (Navbar + Footer)
 import Layout from "./components/Layout";
@@ -42,6 +43,9 @@ function MainRouter() {
 
         {/* ACCOUNT SETTINGS PAGE */}
         <Route path="/account" element={<AccountSettings />} />
+
+        {/* ADMIN DASHBOARD */}
+        <Route path="/admin" element={<AdminDashboard />} />
 
         {/* Optional: 404 page */}
         {/* <Route path="*" element={<NotFound />} /> */}

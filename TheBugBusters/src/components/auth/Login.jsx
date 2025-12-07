@@ -34,7 +34,7 @@ function Login() {
       }
 
       // Login successful
-      login(data.token);
+      login(data.token, data.isAdmin || false);
       navigate("/");
     } catch (err) {
       setError("Network error. Please check your connection.");
