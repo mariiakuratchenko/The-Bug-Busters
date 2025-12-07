@@ -125,7 +125,7 @@ function ExploreProducts() {
     }
   }); // {productId, text, createdAt}
 
-  // 🔄 Backend’ten ürünleri çek (varsa), yoksa fakeProducts kalır
+  // 🔄 Backend’ten ürünleri çek ve fakeProducts ile BİRLEŞTİR (6 ürün hep kalsın)
   useEffect(() => {
     async function fetchProducts() {
       try {
@@ -133,20 +133,23 @@ function ExploreProducts() {
         setError("");
 
         const res = await axios.get(`${API_BASE}/api/items`);
-        const apiItems = res.data || [];
+        const apiItems = Array.isArray(res.data) ? res.data : [];
 
-        // API'den gelen ürünleri local fakeProducts ile ID bazlı birleştir
-        const merged = apiItems.map((item) => {
-          const local = fakeProducts.find((p) => p.id === item.id);
-          return local ? { ...local, ...item } : item;
+        // fakeProducts kalsın, backend’ten gelenler ID bazlı override etsin
+        const merged = [...fakeProducts];
+
+        apiItems.forEach((item) => {
+          const idx = merged.findIndex((p) => p.id === item.id);
+          if (idx >= 0) {
+            merged[idx] = { ...merged[idx], ...item };
+          } else {
+            merged.push(item);
+          }
         });
 
-        // Eğer API boş dönerse fallback olarak fake products kalsın
-        setProducts(merged.length > 0 ? merged : fakeProducts);
+        setProducts(merged);
       } catch (err) {
         console.error("Error loading products from API:", err);
-        // Hata mesajını istersen burada gösterebilirsin
-        // setError("Could not load products from server. Showing demo products.");
         setError("");
         setProducts(fakeProducts);
       } finally {
@@ -157,12 +160,11 @@ function ExploreProducts() {
     fetchProducts();
   }, []);
 
-  // Cart değişince localStorage’a yaz
+  // Cart + Questions localStorage’a yaz
   useEffect(() => {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
   }, [cart]);
 
-  // Questions değişince localStorage’a yaz
   useEffect(() => {
     localStorage.setItem(QUESTIONS_STORAGE_KEY, JSON.stringify(questions));
   }, [questions]);
@@ -172,7 +174,7 @@ function ExploreProducts() {
       ? products
       : products.filter((p) => p.category === filter);
 
-  // Modal open
+  // Modal aç / kapa
   const openModal = (product) => {
     setSelectedProduct(product);
     setIsModalOpen(true);
@@ -181,7 +183,6 @@ function ExploreProducts() {
     setQuantity(1);
   };
 
-  // Modal close
   const closeModal = () => {
     setSelectedProduct(null);
     setIsModalOpen(false);
@@ -189,7 +190,7 @@ function ExploreProducts() {
     setQuestionText("");
   };
 
-  // Quantity değiştir (1–10 arası)
+  // Modal içi quantity (1–10)
   const handleQuantityChange = (delta) => {
     setQuantity((prev) => {
       const next = prev + delta;
@@ -199,7 +200,7 @@ function ExploreProducts() {
     });
   };
 
-  // ✅ ADD TO CART
+  // ✅ SEPETE EKLE
   const handleAddToCart = () => {
     if (!selectedProduct) return;
 
@@ -227,7 +228,30 @@ function ExploreProducts() {
     setCartMessage(`Added ${quantity} item(s) to cart.`);
   };
 
-  // ✅ SUBMIT QUESTION
+  // ✅ SEPETTE ADET DEĞİŞTİR
+  const handleCartQuantityChange = (id, delta) => {
+    setCart((prev) =>
+      prev
+        .map((item) =>
+          item.id === id
+            ? { ...item, quantity: item.quantity + delta }
+            : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
+  };
+
+  // ✅ TEK ÜRÜN SİL
+  const handleRemoveFromCart = (id) => {
+    setCart((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  // ✅ TÜM SEPETİ TEMİZLE
+  const handleClearCart = () => {
+    setCart([]);
+  };
+
+  // ✅ QUESTION SUBMIT
   const handleSubmitQuestion = (e) => {
     e.preventDefault();
     if (!selectedProduct) return;
@@ -248,7 +272,7 @@ function ExploreProducts() {
     ? questions.filter((q) => q.productId === selectedProduct.id)
     : [];
 
-  // Cart toplam adet (ürün sayısı değil, quantity toplamı)
+  // Cart toplam adet ve fiyat
   const cartCount = cart.reduce((sum, item) => sum + item.quantity, 0);
   const cartTotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -261,7 +285,9 @@ function ExploreProducts() {
       <section className="explore-hero">
         <div className="explore-hero-text">
           <p className="eyebrow">Product Catalog</p>
-          <h1 className="explore-title">Smart Protection for Every Bug Scenario</h1>
+          <h1 className="explore-title">
+            Smart Protection for Every Bug Scenario
+          </h1>
           <p className="explore-subtitle">
             Explore our curated range of professional-grade solutions designed
             for families, outdoor spaces, and high-traffic environments.
@@ -349,7 +375,7 @@ function ExploreProducts() {
         ))}
       </section>
 
-      {/* CART SECTION – sayfanın altında cart’ı görme */}
+      {/* CART SECTION */}
       {cart.length > 0 && (
         <section className="cart-section">
           <h2 className="cart-title">Cart</h2>
@@ -374,16 +400,52 @@ function ExploreProducts() {
                     </p>
                   </div>
                 </div>
+
                 <div className="cart-row-right">
-                  <span className="cart-item-qty">
-                    Qty: <strong>{item.quantity}</strong>
-                  </span>
+                  <div className="cart-qty-controls">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleCartQuantityChange(item.id, -1)
+                      }
+                    >
+                      −
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleCartQuantityChange(item.id, 1)
+                      }
+                    >
+                      +
+                    </button>
+                  </div>
+
                   <span className="cart-item-total">
                     ${(item.price * item.quantity).toFixed(2)}
                   </span>
+
+                  <button
+                    type="button"
+                    className="cart-remove-btn"
+                    onClick={() => handleRemoveFromCart(item.id)}
+                  >
+                    Remove
+                  </button>
                 </div>
               </div>
             ))}
+          </div>
+
+          <div className="cart-footer">
+            <button
+              type="button"
+              className="cart-clear-btn"
+              onClick={handleClearCart}
+            >
+              Clear cart
+            </button>
           </div>
         </section>
       )}
@@ -470,7 +532,9 @@ function ExploreProducts() {
 
                 {/* Question form */}
                 <div className="question-section">
-                  <h3 className="question-title">Question about this product?</h3>
+                  <h3 className="question-title">
+                    Question about this product?
+                  </h3>
                   <form onSubmit={handleSubmitQuestion}>
                     <textarea
                       className="question-textarea"
