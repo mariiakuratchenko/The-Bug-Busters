@@ -6,7 +6,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const helmet = require("helmet");
-const itemsRouter = require("./routes/items");
+const itemsRouter = require("./routes/itemRoutes");
 
 const app = express();
 

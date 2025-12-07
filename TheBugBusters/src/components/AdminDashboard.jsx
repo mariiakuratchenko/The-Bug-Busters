@@ -22,24 +22,15 @@ function AdminDashboard() {
     type: "spray",
     targets: [],
     activeIngredient: "",
-    form: "",
-    isElectric: false,
-    power: "",
-    coverageAreaSqm: "",
-    durationHours: "",
-    safeForPets: false,
-    indoorUse: true,
-    outdoorUse: true,
     price: "",
     stock: 0,
-    rating: 0,
-    images: [],
     description: "",
-    warnings: "",
-    tags: []
+    imageUrl: "",
+    safeForPets: false,
+    indoorUse: true,
+    outdoorUse: true
   });
   const [editingProduct, setEditingProduct] = useState(null);
-  const [imagePreview, setImagePreview] = useState("");
 
   // Redirect if not admin
   useEffect(() => {
@@ -131,20 +122,7 @@ function AdminDashboard() {
     setProductForm(prev => ({ ...prev, targets: options }));
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-        setProductForm(prev => ({
-          ...prev,
-          images: [reader.result]
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+
 
   const handleProductSubmit = async (e) => {
     e.preventDefault();
@@ -159,25 +137,40 @@ function AdminDashboard() {
       
       const method = editingProduct ? "PUT" : "POST";
 
+      console.log('Submitting product:', productForm);
+
+      // Convert imageUrl to images array for backend
+      const submitData = {
+        ...productForm,
+        images: productForm.imageUrl ? [productForm.imageUrl] : []
+      };
+      delete submitData.imageUrl;
+
       const response = await fetch(url, {
         method,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(productForm),
+        body: JSON.stringify(submitData),
       });
 
+      const data = await response.json();
+      console.log('Response:', data);
+
       if (response.ok) {
-        alert(editingProduct ? "Product updated!" : "Product created!");
+        alert(editingProduct ? "Product updated successfully!" : "Product created successfully!");
         resetProductForm();
         fetchProducts();
       } else {
-        const data = await response.json();
-        setError(data.error || "Failed to save product");
+        const errorMsg = data.error || data.message || "Failed to save product";
+        setError(errorMsg);
+        alert("Error: " + errorMsg);
       }
     } catch (err) {
-      setError("Network error");
+      const errorMsg = "Network error: " + err.message;
+      setError(errorMsg);
+      alert(errorMsg);
       console.error("Error saving product:", err);
     } finally {
       setLoading(false);
@@ -192,23 +185,14 @@ function AdminDashboard() {
       type: product.type || "spray",
       targets: product.targets || [],
       activeIngredient: product.activeIngredient || "",
-      form: product.form || "",
-      isElectric: product.isElectric || false,
-      power: product.power || "",
-      coverageAreaSqm: product.coverageAreaSqm || "",
-      durationHours: product.durationHours || "",
-      safeForPets: product.safeForPets || false,
-      indoorUse: product.indoorUse !== undefined ? product.indoorUse : true,
-      outdoorUse: product.outdoorUse !== undefined ? product.outdoorUse : true,
       price: product.price || "",
       stock: product.stock || 0,
-      rating: product.rating || 0,
-      images: product.images || [],
       description: product.description || "",
-      warnings: product.warnings || "",
-      tags: product.tags || []
+      imageUrl: product.images?.[0] || "",
+      safeForPets: product.safeForPets || false,
+      indoorUse: product.indoorUse !== undefined ? product.indoorUse : true,
+      outdoorUse: product.outdoorUse !== undefined ? product.outdoorUse : true
     });
-    setImagePreview(product.images?.[0] || "");
   };
 
   const deleteProduct = async (id) => {
@@ -239,23 +223,14 @@ function AdminDashboard() {
       type: "spray",
       targets: [],
       activeIngredient: "",
-      form: "",
-      isElectric: false,
-      power: "",
-      coverageAreaSqm: "",
-      durationHours: "",
-      safeForPets: false,
-      indoorUse: true,
-      outdoorUse: true,
       price: "",
       stock: 0,
-      rating: 0,
-      images: [],
       description: "",
-      warnings: "",
-      tags: []
+      imageUrl: "",
+      safeForPets: false,
+      indoorUse: true,
+      outdoorUse: true
     });
-    setImagePreview("");
   };
 
   if (!loggedIn || !isAdmin) {
@@ -319,12 +294,7 @@ function AdminDashboard() {
         {/* Products Tab */}
         {activeTab === "products" && (
           <div className="tab-content">
-            <div className="under-construction">
-              <h2>🚧 Product Management</h2>
-              <p className="construction-message">This feature is currently under construction.</p>
-              <p className="construction-note">Please check back later for product management capabilities.</p>
-            </div>
-            <div className="products-section" style={{ display: 'none' }}>
+            <div className="products-section">
               <div className="product-form-section">
                 <h2>{editingProduct ? "Edit Product" : "Add New Product"}</h2>
                 
@@ -426,28 +396,39 @@ function AdminDashboard() {
                     />
                   </div>
 
+                  <div className="form-row">
+                    <div className="form-group">
+                      <label>Active Ingredient</label>
+                      <input
+                        type="text"
+                        name="activeIngredient"
+                        value={productForm.activeIngredient}
+                        onChange={handleProductFormChange}
+                        placeholder="e.g. DEET 25%"
+                      />
+                    </div>
+                  </div>
+
                   <div className="form-group">
-                    <label>Image Upload</label>
+                    <label>Image URL</label>
                     <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageUpload}
+                      type="text"
+                      name="imageUrl"
+                      value={productForm.imageUrl}
+                      onChange={handleProductFormChange}
+                      placeholder="https://example.com/image.jpg"
                     />
-                    {imagePreview && (
-                      <img src={imagePreview} alt="Preview" className="image-preview" />
+                    {productForm.imageUrl && (
+                      <img 
+                        src={productForm.imageUrl} 
+                        alt="Preview" 
+                        className="image-preview"
+                        onError={(e) => e.target.style.display = 'none'}
+                      />
                     )}
                   </div>
 
                   <div className="form-checkboxes">
-                    <label>
-                      <input
-                        type="checkbox"
-                        name="isElectric"
-                        checked={productForm.isElectric}
-                        onChange={handleProductFormChange}
-                      />
-                      Electric Device
-                    </label>
                     <label>
                       <input
                         type="checkbox"

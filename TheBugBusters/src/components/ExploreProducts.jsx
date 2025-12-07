@@ -139,18 +139,22 @@ function ExploreProducts() {
         const res = await axios.get(`${API_BASE}/api/items`);
         const apiItems = Array.isArray(res.data) ? res.data : [];
 
-        // fakeProducts kalsın, backend’ten gelenler ID bazlı override etsin
-        const merged = [...fakeProducts];
+        // Map backend items to frontend format
+        const mappedItems = apiItems.map(item => ({
+          id: item._id || item.id,
+          name: item.name,
+          category: item.type,
+          insectType: item.targets?.join(', ') || 'Multiple',
+          price: item.price,
+          isElectric: item.isElectric || false,
+          isIndoor: item.indoorUse !== undefined ? item.indoorUse : true,
+          description: item.description || 'No description available',
+          imageUrl: item.images?.[0] || ecoImg,
+          ...item
+        }));
 
-        apiItems.forEach((item) => {
-          const idx = merged.findIndex((p) => p.id === item.id);
-          if (idx >= 0) {
-            merged[idx] = { ...merged[idx], ...item };
-          } else {
-            merged.push(item);
-          }
-        });
-
+        // Combine fake products with backend items
+        const merged = [...fakeProducts, ...mappedItems];
         setProducts(merged);
       } catch (err) {
         console.error("Error loading products from API:", err);
@@ -176,7 +180,10 @@ function ExploreProducts() {
   const filteredProducts =
     filter === "All"
       ? products
-      : products.filter((p) => p.category === filter);
+      : products.filter((p) => {
+          const category = p.category || p.type;
+          return category && category.toLowerCase().replace(/_/g, ' ') === filter.toLowerCase();
+        });
 
   // Modal aç / kapa
   const openModal = (product) => {
@@ -356,7 +363,7 @@ function ExploreProducts() {
 
       {/* FILTER BAR */}
       <div className="filter-bar">
-        {["All", "Spray", "Electric Zapper", "Coil", "Ultrasonic", "Patch", "Trap"].map(
+        {["All", "Spray", "Lotion", "Coil", "Plug in Electric", "Ultrasonic", "Trap"].map(
           (cat) => (
             <button
               key={cat}
@@ -384,7 +391,7 @@ function ExploreProducts() {
 
             <div className="product-info">
               <h2>{product.name}</h2>
-              <span className="category">{product.category}</span>
+              <span className="category">{product.category || product.type}</span>
               <p className="description">{product.description}</p>
 
               <div className="tags">
