@@ -1,3 +1,4 @@
+// ExploreProducts.jsx
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -10,8 +11,8 @@ import ecoImg from "./auth/eco.avif";
 
 import "./ExploreProducts.css";
 
-// Local dev için API adresi
-const API_BASE = "http://localhost:5001";
+// API adresi: önce .env, yoksa localhost
+const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 const fakeProducts = [
   {
@@ -132,16 +133,20 @@ function ExploreProducts() {
         setError("");
 
         const res = await axios.get(`${API_BASE}/api/items`);
-        const apiItems = res.data;
+        const apiItems = res.data || [];
 
+        // API'den gelen ürünleri local fakeProducts ile ID bazlı birleştir
         const merged = apiItems.map((item) => {
           const local = fakeProducts.find((p) => p.id === item.id);
           return local ? { ...local, ...item } : item;
         });
 
-        setProducts(merged);
+        // Eğer API boş dönerse fallback olarak fake products kalsın
+        setProducts(merged.length > 0 ? merged : fakeProducts);
       } catch (err) {
         console.error("Error loading products from API:", err);
+        // Hata mesajını istersen burada gösterebilirsin
+        // setError("Could not load products from server. Showing demo products.");
         setError("");
         setProducts(fakeProducts);
       } finally {
@@ -222,7 +227,7 @@ function ExploreProducts() {
     setCartMessage(`Added ${quantity} item(s) to cart.`);
   };
 
-  // ✅ SUBMIT QUESTION 
+  // ✅ SUBMIT QUESTION
   const handleSubmitQuestion = (e) => {
     e.preventDefault();
     if (!selectedProduct) return;
@@ -329,7 +334,9 @@ function ExploreProducts() {
               </div>
 
               <div className="bottom-row">
-                <span className="price">${product.price.toFixed(2)}</span>
+                <span className="price">
+                  ${Number(product.price).toFixed(2)}
+                </span>
                 <button
                   className="buy-btn"
                   onClick={() => openModal(product)}
@@ -363,7 +370,7 @@ function ExploreProducts() {
                   <div>
                     <p className="cart-item-name">{item.name}</p>
                     <p className="cart-item-price">
-                      ${item.price.toFixed(2)} each
+                      ${Number(item.price).toFixed(2)} each
                     </p>
                   </div>
                 </div>
@@ -433,7 +440,7 @@ function ExploreProducts() {
                 {/* Quantity + Add to cart */}
                 <div className="modal-bottom-row">
                   <span className="modal-price">
-                    ${selectedProduct.price.toFixed(2)}
+                    ${Number(selectedProduct.price).toFixed(2)}
                   </span>
 
                   <div className="quantity-control">
