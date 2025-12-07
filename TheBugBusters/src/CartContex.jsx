@@ -1,28 +1,39 @@
 // src/context/CartContext.jsx
 import { createContext, useContext, useEffect, useState } from "react";
 
+/**
+ * Global cart state for The Bug Busters.
+ * Stores items in localStorage so the cart persists between refreshes.
+ */
 const CartContext = createContext();
 
 const STORAGE_KEY = "bugbusters_cart";
 
 export function CartProvider({ children }) {
   const [items, setItems] = useState(() => {
+    // Initial state from localStorage with defensive try/catch
     try {
-      const raw = localStorage.getItem(STORAGE_KEY);
+      if (typeof window === "undefined") return [];
+      const raw = window.localStorage.getItem(STORAGE_KEY);
       return raw ? JSON.parse(raw) : [];
     } catch {
       return [];
     }
   });
 
-  // Persist cart to localStorage
+  // Persist cart to localStorage on every change
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    try {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    } catch {
+      // silently fail if storage is not available
+    }
   }, [items]);
 
   const addItem = (product, quantity = 1) => {
     setItems((prev) => {
       const existing = prev.find((it) => it.id === product.id);
+
       if (existing) {
         return prev.map((it) =>
           it.id === product.id
@@ -30,6 +41,7 @@ export function CartProvider({ children }) {
             : it
         );
       }
+
       return [
         ...prev,
         {
@@ -79,5 +91,9 @@ export function CartProvider({ children }) {
 }
 
 export function useCart() {
-  return useContext(CCartContext);
+  const ctx = useContext(CartContext);
+  if (!ctx) {
+    throw new Error("useCart must be used within a CartProvider");
+  }
+  return ctx;
 }

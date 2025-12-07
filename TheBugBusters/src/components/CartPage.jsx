@@ -3,8 +3,14 @@ import { useCart } from "../context/CartContext";
 import "./CartPage.css";
 
 function CartPage() {
-  const { items, updateQuantity, removeItem, clearCart, totalItems, totalPrice } =
-    useCart();
+  const {
+    items,
+    updateQuantity,
+    removeItem,
+    clearCart,
+    totalItems,
+    totalPrice,
+  } = useCart();
 
   if (items.length === 0) {
     return (
@@ -28,7 +34,11 @@ function CartPage() {
       <section className="cart-items">
         {items.map((item) => (
           <article key={item.id} className="cart-item">
-            <img src={item.imageUrl} alt={item.name} className="cart-item-img" />
+            <img
+              src={item.imageUrl}
+              alt={item.name}
+              className="cart-item-img"
+            />
             <div className="cart-item-info">
               <h2>{item.name}</h2>
               <p className="cart-item-price">
