@@ -47,9 +47,14 @@ function Layout() {
         {/* Auth Buttons */}
         <nav className="navbar-right">
           {loggedIn ? (
-            <Link to="/logout" className={`${isActive("/logout")} nav-auth`}>
-              Sign Out
-            </Link>
+            <>
+              <Link to="/account" className={`${isActive("/account")} nav-auth`}>
+                Account
+              </Link>
+              <Link to="/logout" className={`${isActive("/logout")} nav-auth`}>
+                Sign Out
+              </Link>
+            </>
           ) : (
             <>
               <Link to="/login" className={`${isActive("/login")} nav-auth`}>

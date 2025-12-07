@@ -20,4 +20,7 @@ router.get("/me", auth, ctrl.me);
 // Logout (protected)
 router.post("/logout", auth, ctrl.logout);
 
+// Update account (protected)
+router.put("/update-account", auth, ctrl.updateAccount);
+
 module.exports = router;

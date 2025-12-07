@@ -62,3 +62,61 @@ exports.logout = async (req, res) => {
   return res.json({ message: "Logged out successfully" });
 };
 
+exports.updateAccount = async (req, res, next) => {
+  try {
+    const { currentEmail, currentPassword, newEmail, newPassword } = req.body;
+
+    // Validation
+    if (!currentEmail || !currentPassword) {
+      return res.status(400).json({ message: "Current email and password are required" });
+    }
+
+    if (!newEmail && !newPassword) {
+      return res.status(400).json({ message: "Please provide at least one field to update" });
+    }
+
+    // Find user by current email
+    const user = await User.findOne({ email: currentEmail });
+    if (!user) {
+      return res.status(400).json({ message: "Current email is incorrect" });
+    }
+
+    // Verify current password
+    const passwordMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!passwordMatch) {
+      return res.status(400).json({ message: "Current password is incorrect" });
+    }
+
+    // Verify the token matches the user
+    if (req.user._id !== user._id.toString()) {
+      return res.status(403).json({ message: "Unauthorized" });
+    }
+
+    // Check if new email is already taken by another user
+    if (newEmail && newEmail !== currentEmail) {
+      const emailExists = await User.findOne({ email: newEmail });
+      if (emailExists) {
+        return res.status(400).json({ message: "New email is already registered" });
+      }
+      user.email = newEmail;
+    }
+
+    // Update password if provided
+    if (newPassword) {
+      if (newPassword.length < 6) {
+        return res.status(400).json({ message: "New password must be at least 6 characters long" });
+      }
+      user.password = await bcrypt.hash(newPassword, 10);
+    }
+
+    await user.save();
+
+    res.json({ 
+      message: "Account updated successfully",
+      email: user.email 
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
