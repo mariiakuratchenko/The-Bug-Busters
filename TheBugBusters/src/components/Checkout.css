@@ -200,6 +200,18 @@
   transform: none;
 }
 
+/* Loading Screen */
+.checkout-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.125rem;
+  color: #4a5568;
+}
+
 /* Success Screen */
 .checkout-success {
   display: flex;

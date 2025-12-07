@@ -9,6 +9,7 @@ const CART_STORAGE_KEY = "bugbusters_cart";
 function Checkout() {
   const { loggedIn } = useContext(AuthContext);
   const navigate = useNavigate();
+  const [authChecked, setAuthChecked] = useState(false);
   
   // Load cart from localStorage
   const [cart, setCart] = useState(() => {
@@ -34,12 +35,17 @@ function Checkout() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
-  // Redirect if not logged in
+  // Redirect if not logged in (with delay to ensure auth state is loaded)
   useEffect(() => {
-    if (!loggedIn) {
-      alert("Please login to checkout");
-      navigate("/login");
-    }
+    const timer = setTimeout(() => {
+      setAuthChecked(true);
+      if (!loggedIn) {
+        alert("Please login to checkout");
+        navigate("/login");
+      }
+    }, 100);
+    
+    return () => clearTimeout(timer);
   }, [loggedIn, navigate]);
 
   // Redirect if cart is empty
@@ -82,6 +88,17 @@ function Checkout() {
       }, 3000);
     }, 1500);
   };
+
+  // Show loading while checking auth
+  if (!authChecked) {
+    return (
+      <div className="checkout-page">
+        <div className="checkout-loading">
+          <p>Loading checkout...</p>
+        </div>
+      </div>
+    );
+  }
 
   // Success screen
   if (showSuccess) {

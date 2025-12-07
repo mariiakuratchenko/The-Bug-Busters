@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-let apiURL = import.meta.env.VITE_API_URL
+const apiURL = import.meta.env.VITE_API_URL || "http://localhost:5000"
 
 function Register() {
   const navigate = useNavigate();
@@ -87,6 +87,10 @@ function Register() {
         </p>
 
         <form className="form" onSubmit={handleSubmit}>
+          
+          {/* Error & Success Messages */}
+          {error && <p className="form-error">{error}</p>}
+          {success && <p className="form-success">{success}</p>}
           
           {/* Name row */}
           <div className="form-row">
