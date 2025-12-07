@@ -11,7 +11,7 @@ import ecoImg from "./auth/eco.avif"; // Eco-friendly glue trap image
 import "./ExploreProducts.css";
 
 
-const API_BASE = "http://localhost:5001";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 const fakeProducts = [
   {
@@ -289,7 +289,7 @@ function ExploreProducts() {
                     ${selectedProduct.price.toFixed(2)}
                   </span>
                   <button className="modal-cta-btn">
-                    Add to service plan
+                    Add to Cart
                   </button>
                 </div>
               </div>
